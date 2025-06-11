@@ -10,4 +10,4 @@ admin.site.register(Tank)
 admin.site.register(Sensor)
 admin.site.register(Reading)
 
-admin.site.register(AdminPageVisit)
+admin.site.register(AdminPageVisit) 
