@@ -1,0 +1,152 @@
+{% extends 'adminpanel/layout.html' %}
+{% load static %}
+
+{% block content %}
+<title>Tanks in {{ building.building_name }}</title>
+
+<style>
+    .page-container {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 2rem;
+        color: white;
+        text-align: center;
+    }
+
+    .building-header h1 {
+        font-size: 2.4rem;
+        margin-bottom: 1rem;
+        color: #fff;
+    }
+
+    .add-tank-btn {
+        background-color: #007BFF;
+        color: white;
+        padding: 0.6rem 1.4rem;
+        border: none;
+        font-weight: bold;
+        font-size: 1rem;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s;
+        margin-bottom: 2rem;
+        display: inline-block;
+    }
+
+    .add-tank-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .tank-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .tank-card {
+        background-color: rgba(255, 255, 255, 0.07);
+        border-radius: 1.2rem;
+        padding: 1rem;
+        width: 220px;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        color: #fff;
+    }
+
+    .tank-visual-container {
+        position: relative;
+        height: 180px;
+        width: 80px;
+        margin: 0 auto 1rem;
+        background: #e0e0e0;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 2px solid #aaa;
+    }
+
+    .wave {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        transition: height 0.3s ease-in-out;
+    }
+
+    .tank-details {
+        font-size: 0.92rem;
+        text-align: left;
+        margin-top: 0.5rem;
+    }
+
+    .tank-level-text {
+        margin-top: 0.5rem;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .messages {
+        list-style-type: none;
+        padding: 0;
+        color: #ff0;
+        margin-top: 1rem;
+    }
+
+    .back-link {
+        margin-top: 3rem;
+        display: inline-block;
+        color: #ccc;
+        text-decoration: underline;
+    }
+</style>
+
+<div class="page-container">
+
+    <!-- Building Name -->
+    <div class="building-header">
+        <h1>{{ building.building_name }}</h1>
+        <a href="{% url 'add_tank' building.building_id %}" class="add-tank-btn">+ Add Tank</a>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Tank Cards -->
+    <div class="tank-grid">
+        {% for tank in tanks %}
+        <div class="tank-card">
+            {% if tank.visual_level is not None %}
+            <div class="tank-visual-container">
+                <div class="wave" style="height: {{ tank.visual_level }}%; background-color:
+                    {% if tank.visual_level >= 70 %} #28a745
+                    {% elif tank.visual_level >= 30 %} #ffc107
+                    {% else %} #dc3545
+                    {% endif %}
+                ;"></div>
+            </div>
+            <div class="tank-level-text">{{ tank.visual_level|floatformat:0 }}%</div>
+            {% else %}
+            <div style="margin: 1rem 0;">No visualization</div>
+            {% endif %}
+
+            <div class="tank-details">
+                <strong>Tank ID:</strong> {{ tank.tank_id }}<br>
+                <strong>Capacity:</strong> {{ tank.capacity }}<br>
+                <strong>Reading:</strong> {{ tank.latest_reading_value|floatformat:2|default:"N/A" }}<br>
+                <strong>Timestamp:</strong> {{ tank.latest_reading_date|default:"N/A" }}
+            </div>
+        </div>
+        {% empty %}
+        <p>No tanks found for this building.</p>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'building_list' %}" class="back-link">← Back to Buildings</a>
+</div>
+{% endblock %}

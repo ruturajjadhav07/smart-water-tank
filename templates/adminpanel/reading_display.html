@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reading for Tank {{ tank.tank_id }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f4f8;
+            
+            padding: 2rem;
+            color: #333;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .no-data {
+            font-style: italic;
+            color: #888;
+            margin-top: 1rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Reading for Tank: {{ tank.tank_id }}</h2>
+
+    {% if reading %}
+        <table>
+            <tr>
+                <th>Timestamp</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>{{ reading.sensor_reading_last_modified_date }}</td>
+                <td>{{ reading.reading }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <p class="no-data">No readings available for this tank.</p>
+    {% endif %}
+
+    <a href="{% url 'tank_list' tank.building_id %}" class="back-link">← Back to Tanks</a>
+</body>
+</html>

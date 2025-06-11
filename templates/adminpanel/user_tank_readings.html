@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tanks in {{ tank.building.building_name }}</title>
+    <style>
+        .tank-card {
+            border-left: 4px solid #007BFF;
+            background-color: #fff;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tank-info {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .tank-bar {
+            height: 200px;
+            width: 60px;
+            border: 2px solid #007BFF;
+            border-radius: 20px;
+            position: relative;
+            background: #ecf0f1;
+            overflow: hidden;
+        }
+
+        .fill {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: {{ percentage }}%;
+            overflow: hidden;
+            background: linear-gradient(to top, rgba(255, 255, 255, 0.3) 50%, transparent 50%);
+            background-size: 100% 20px;
+            animation: wave 1s linear infinite;
+        }
+
+        .fill.low { background-color: red; }
+        .fill.medium { background-color: yellow; }
+        .fill.high { background-color: green; }
+
+        @keyframes wave {
+            from { background-position: 0 0; }
+            to { background-position: 0 20px; }
+        }
+
+        .percentage {
+            text-align: center;
+            font-weight: bold;
+            color: #007BFF;
+            margin-top: 0.5rem;
+        }
+
+        .refresh-button {
+            display: inline-block;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Tanks in {{ tank.building.building_name }}</h2>
+
+    <div class="tank-card">
+        <div class="tank-info">
+            <strong>Tank ID:</strong> {{ tank.tank_id }}<br>
+            <strong>Capacity:</strong> {{ tank.capacity }}<br>
+
+            {% if random_reading %}
+                <strong>Random Reading:</strong> {{ random_reading.reading|floatformat:2 }}<br>
+                <strong>Timestamp:</strong> {{ random_reading.sensor_reading_last_modified_date|date:"m/d/Y H:i" }}
+            {% else %}
+                <strong>No readings available.</strong>
+            {% endif %}
+        </div>
+
+        <div>
+            <div class="tank-bar">
+                <div class="fill {{ color_class }}"></div>
+            </div>
+            <div class="percentage">{{ percentage }}%</div>
+        </div>
+    </div>
+</body>
+</html>

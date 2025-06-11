@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta name="viewport" content="with=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <head>
+        <meta name="viewport" content="with=device-width, initial-scale=1.0">
+        <title>Smart Water Tank</title>
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/fontawesome.min.css">
+    </head>
+    <style>
+       
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            width: 600px;
+            margin: 0px auto;
+            padding: 15px 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .form-title {
+            background-color: #d5eaff;
+            color: #002b5c;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #a6cce0;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            width: 40%;
+            padding: 12px;
+            background-color:rgb(41, 114, 42);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+        
+        button{
+            width: 20%;
+            padding: 12px;
+            background-color:rgb(35, 185, 215);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #679cb2;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #002b5c;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <section class="header">
+        <nav>
+            <a href="index.html"><img src="{% static 'img/LOGO1.png' %}" alt="img/LOGO1.png"></a>
+            <div class="nav-links">
+                <i class="fa fa-arrow-left"></i>
+                <ul>
+                    <li><a href="">HOME</a></li>
+                    <li><a href="">About</a></li>
+                    <li><a href="">Contact</a></li>
+                    <li><a href="">Users</a></li>
+                </ul>
+            </div>
+            <i class="fa fa-bars"></i>
+        </nav>
+    <div class="container">
+        <h1>Edit User</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" name="username" value="{{ user.username }}" required>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" value="{{ user.email }}" required>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" value="{{ user.password }}" required>
+
+            <label for="user_id">User ID:</label>
+            <input type="text" name="user_id" value="{{ user.user_id }}" required>
+
+            <label for="created_date">Created Date:</label>
+            <input type="date" name="created_date" value="{{ user.created_date }}" required>
+
+            <input type="submit" value="Update User">
+        </form>
+        
+    </div>
+    <button style="float: right;">
+        <a href="{% url 'user_list' %}">← Back to User List</a>
+        </button>
+</section>
+</body>
+</html>

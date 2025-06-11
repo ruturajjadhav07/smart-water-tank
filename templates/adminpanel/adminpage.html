@@ -1,0 +1,77 @@
+{% extends 'adminpanel/layout.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+
+    
+    .dashboard-title {
+        font-size: 2.2rem;
+        margin-bottom: 3rem;
+        color:white;
+        align-items:center;
+        text-align: center;
+    }
+
+    .dashboard-grid {
+        display: flex;
+        justify-content: center;
+        gap: 5rem;
+        flex-wrap: wrap;
+    }
+
+    .dashboard-tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.3s ease;
+        text-decoration: none;
+    }
+
+    .dashboard-tile:hover {
+        transform: scale(1.05);
+    }
+
+    .dashboard-tile img {
+        width: 280px;
+        height: 280px;
+        object-fit: contain;
+        margin-bottom: 1.5rem;
+    }
+
+    .dashboard-button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .dashboard-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="dashboard-section">
+    <h2 class="dashboard-title">Admin Panel</h2>
+
+    <div class="dashboard-grid">
+        <a href="{% url 'user_list' %}" class="dashboard-tile">
+            <img src="{% static 'img/user.png' %}" alt="User">
+            <div class="dashboard-button">Users</div>
+        </a>
+
+        <a href="{% url 'building_list' %}" class="dashboard-tile">
+            <img src="{% static 'img/Building.webp' %}" alt="Building">
+            <div class="dashboard-button">Buildings</div>
+        </a>
+
+        <a href="{% url 'reading_history_view' %}" class="dashboard-tile">
+    <img src="{% static 'img/report.png' %}" alt="History">
+    <div class="dashboard-button">Reading History</div>
+</a>
+    </div>
+</div>
+{% endblock %}

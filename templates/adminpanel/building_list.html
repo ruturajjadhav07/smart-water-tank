@@ -1,0 +1,141 @@
+{% extends 'adminpanel/layout.html' %}
+{% load static %}
+
+{% block content %}
+  <title>All Buildings</title>
+  <style>
+
+    .content-wrapper{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1 rem;
+      width: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+    }
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 2.5rem;
+      color: #0077b6;
+      text-shadow: 1px 1px 1px #c4d9e8;
+      user-select: none;
+      text-align: center;
+    }
+
+    .admin-button-container {
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 2.5rem;
+      text-align: center;
+      align-items: center;
+    }
+
+    .admin-button {
+      background-color: #00b4d8;
+      color: white;
+      padding: 14px 36px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 180, 216, 0.4);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+      user-select: none;
+      align-items: center;
+    }
+
+    .admin-button:hover,
+    .admin-button:focus {
+      background-color: #0077b6;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 119, 182, 0.6);
+      outline: none;
+    }
+
+    .grid-container {
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+      padding: 0 1rem;
+      user-select: none;
+    }
+
+    .building-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .building-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
+    }
+
+    .building-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #023e8a;
+      margin-bottom: 1rem;
+    }
+
+    .building-link {
+      font-size: 1rem;
+      color: #0077b6;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1.2rem;
+      border: 2px solid #0077b6;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+    }
+
+    .building-link:hover,
+    .building-link:focus {
+      background-color: #0077b6;
+      color: white;
+      outline: none;
+    }
+
+    /* Ensure the entire card clickable but avoid conflict with the link */
+    .building-card a {
+      position: relative;
+      z-index: 10;
+    }
+
+    
+  </style>
+<div class="content-wrapper">
+  <h1>All Buildings</h1>
+
+  <div class="admin-button-container">
+    <a href="{% url 'adminpage' %}" class="admin-button" tabindex="0">Go to Admin Page</a>
+  </div>
+
+  <div class="grid-container">
+    {% for building in buildings %}
+      <div class="building-card" onclick="location.href='{% url 'tank_list' building.building_id %}'" tabindex="0" role="button" aria-label="View tanks for {{ building.building_name }}">
+        <div class="building-name">{{ building.building_name }}</div>
+        <a class="building-link" href="{% url 'tank_list' building.building_id %}" tabindex="-1">View Tanks</a>
+      </div>
+    {% empty %}
+      <div class="building-card" style="cursor: default;">No buildings found.</div>
+    {% endfor %}
+  </div>
+  </div>
+{% endblock %}

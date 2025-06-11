@@ -1,0 +1,116 @@
+{% extends 'adminpanel/layout.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        body {
+            background-color: #f0f4f8;
+        }
+
+        .container {
+            background-color: #ffffff;
+            width: 800px;
+            margin: 120px;
+            padding: 40px 50px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            background-color: #d5eaff;
+            color: #003366;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 12px 0 6px;
+            font-weight: 600;
+            color: #003344;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: #f1f8ff;
+            font-size: 15px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #287e4f;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            margin-top: 25px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1c5f3b;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-link a {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1e90ff;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-link a:hover {
+            background-color: #0c6cd4;
+        }
+    </style>
+
+    <div class="container">
+        <h1>Add New User</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Name:</label>
+            <input type="text" name="username" id="username" required>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+
+            <label for="password">Password:</label>
+            <input type="text" name="password" id="password" required>
+
+            <label for="user_id">User ID:</label>
+            <input type="text" name="user_id" id="user_id" required>
+
+            <label for="created_date">Created Date:</label>
+            <input type="date" name="created_date" id="created_date" required>
+
+            <input type="submit" value="Submit">
+        </form>
+
+        <div class="back-link">
+            <a href="{% url 'user_list' %}">View Existing Users</a>
+        </div>
+    </div>
+{% endblock %}

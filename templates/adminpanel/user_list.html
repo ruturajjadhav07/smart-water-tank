@@ -1,0 +1,144 @@
+{% extends 'adminpanel/layout.html' %}
+{% load static %}
+
+{% block content %}
+<title>User List</title>
+
+<style>
+    body {
+        background-color: #f4f7fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+    }
+
+    .container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 1000px;
+    margin: 10rem auto; /* This line includes margin-top */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+
+    h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 2rem;
+    }
+
+    .add-user {
+        display: inline-block;
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+        padding: 10px 20px;
+        border-radius: 8px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .add-user:hover {
+        background-color: #0056b3;
+    }
+
+    .message {
+        color: green;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        background-color: #fdfefe;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #34495e;
+        color: white;
+        font-size: 1rem;
+    }
+
+    td {
+        background-color: #e8f0fe;
+        color: #333;
+        font-size: 0.95rem;
+    }
+
+    td a {
+        margin: 0 5px;
+        padding: 6px 12px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    td a[href*='edit'] {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    td a[href*='edit']:hover {
+        background-color: #218838;
+    }
+
+    td a[href*='delete'] {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    td a[href*='delete']:hover {
+        background-color: #c82333;
+    }
+</style>
+
+<div class="container">
+    <h1>Users List</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <a class="add-user" href="{% url 'add_user' %}">+ Add New User</a>
+
+    <table>
+        <tr>
+            <th>Sr No</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>User ID</th>
+            <th>Created Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.user_id }}</td>
+            <td>{{ user.created_date }}</td>
+            <td>
+                <a href="{% url 'edit_user' user.user_id %}">Edit</a>
+                <a href="{% url 'delete_user' user.user_id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

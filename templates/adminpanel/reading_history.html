@@ -1,0 +1,119 @@
+{% extends 'adminpanel/layout.html' %}
+{% load static %}
+
+{% block content %}
+<h1 style="text-align:center; color:#0077b6; margin: 2rem 0; font-size: 2.5rem; font-weight: 700;">
+  Monthly Water Usage per Building
+</h1>
+
+<div id="monthly-grid" style="
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 2.5rem;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: auto;
+">
+  <!-- Charts will be injected here -->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const monthlyData = {{ monthly_data|safe }};
+  const grid = document.getElementById('monthly-grid');
+
+  monthlyData.forEach(monthEntry => {
+    const { month, buildings } = monthEntry;
+
+    // Create container card
+    const container = document.createElement('div');
+    container.style.padding = "2rem";
+    container.style.borderRadius = "1.25rem";
+    container.style.boxShadow = "0 10px 25px rgba(0, 0, 0, 0.1)";
+    container.style.background = "white";
+    container.style.transition = "transform 0.3s ease";
+    container.onmouseover = () => container.style.transform = "scale(1.02)";
+    container.onmouseout = () => container.style.transform = "scale(1)";
+    
+    // Month title
+    const title = document.createElement('h3');
+    title.textContent = `📅 ${month}`;
+    title.style.color = '#03045e';
+    title.style.textAlign = 'center';
+    title.style.marginBottom = '1.5rem';
+    title.style.fontSize = '1.5rem';
+    title.style.fontWeight = '600';
+    container.appendChild(title);
+
+    // Chart canvas
+    const canvas = document.createElement('canvas');
+    canvas.style.marginBottom = '1rem';
+    container.appendChild(canvas);
+
+    // Extract data
+    const labels = buildings.map(b => b.building_name);
+    const values = buildings.map(b => b.total_usage);
+    const maxUsage = Math.max(...values);
+    const maxIndex = values.indexOf(maxUsage);
+    const maxBuilding = labels[maxIndex];
+
+    // Chart
+    new Chart(canvas.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Water Usage (Litres)',
+          data: values,
+          backgroundColor: labels.map((_, i) =>
+            i === maxIndex ? 'rgba(0, 123, 255, 0.8)' : 'rgba(144, 164, 174, 0.5)'
+          ),
+          borderRadius: 10,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => `Usage: ${ctx.parsed.y.toFixed(2)} L`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Litres',
+              color: '#333',
+              font: { size: 14, weight: 'bold' }
+            },
+            ticks: { color: '#555' }
+          },
+          x: {
+            ticks: { color: '#555', maxRotation: 45, minRotation: 0 }
+          }
+        }
+      }
+    });
+
+    // Note for most usage
+    const note = document.createElement('div');
+    note.innerHTML = `<span style="color: #FFFFFF; font-weight: 600;">Top Building:</span> 
+                      <span style="color: #d00000; font-weight: bold;">${maxBuilding}</span> 
+                      used <strong>${maxUsage.toFixed(2)} L</strong> of water.`;
+    note.style.textAlign = 'center';
+    note.style.marginTop = '1rem';
+    note.style.fontSize = '1rem';
+    note.style.background = '#0077b6';
+    note.style.padding = '0.8rem 1rem';
+    note.style.borderRadius = '0.75rem';
+    container.appendChild(note);
+
+    grid.appendChild(container);
+  });
+</script>
+{% endblock %}

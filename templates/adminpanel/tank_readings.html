@@ -1,0 +1,17 @@
+<h1>Sensor Readings for Tank {{ tank.tank_id }}</h1>
+
+{% if readings %}
+<ul>
+    {% for reading in readings %}
+        <li>
+            Reading ID: {{ reading.reading_id }} |
+            Value: {{ reading.reading }} |
+            Timestamp: {{ reading.sensor_reading_last_modified_date }}
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+    <p>No readings found for this tank.</p>
+{% endif %}
+
+<a href="{% url 'tank_list' tank.building.building_id %}">Back to Tank List</a>

@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Water System</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background:linear-gradient(rgba(4, 9, 30, 0.7),rgba(4,9,30,0.7)), url("{% static 'img/Atri.jpg' %}") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav img {
+      height: 60px;
+    }
+
+    .nav-links ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .nav-links ul li a:hover {
+      color: #00aced;
+    }
+
+    .center-content {
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 25rem 2rem 2rem;
+    }
+
+    .center-content h1 {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .btn {
+      margin: 10px;
+      padding: 12px 30px;
+      background-color: #fcfcfd;
+      color: white;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background-color: #1c4d81;
+      transform: scale(1.05);
+    }
+
+    section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .row{
+    margin-top:50px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+   
+}
+.BUILDINGS-col img{
+    height: 250px;
+    width: 250px;
+    margin: 40px;
+    display: block;
+    align-items: center;
+}
+.BUILDINGS-col h2{
+    text-align: center;
+    font-size: 20px;
+    color:whitesmoke;
+}
+    .about-section,.contact-section {
+      max-width: 900px;
+      margin-top: 20px;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: #00aced;
+      margin-bottom: 1.2rem;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links ul {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .center-content h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="#"><img src="{% static 'img/LOGO1.png' %}" alt="LOGO" /></a>
+    <div class="nav-links">
+      <ul>
+        <li><a href="#top">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#top">Users</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="top" class="center-content">
+    <h1>Welcome to the Smart Water System</h1>
+
+       <div class="row">
+            <div class="BUILDINGS-col">
+            <a href="{% url 'user_login' %}">
+            <img src="{% static 'img/user1.jpg' %}"><div class="btn">User Login</a></div></div>
+
+        <div class="BUILDINGS-col">
+        <a href="{% url 'admin_login' %}">
+       <img src="{% static 'img/user.png' %}"><div class="btn">Admin Login</a></div>
+      </div>
+      </div>
+
+
+  <section id="about" class="about-section">
+    <h2>About the Smart Water System</h2>
+    <p>
+      The Smart Water System is an innovative solution designed to automate water level monitoring in tanks,
+      ensuring efficient water management and conservation. Using IoT sensors, the system provides real-time data
+      on water levels, helping users avoid overflow and shortage situations.
+    </p>
+    <p>
+      It supports multiple buildings and tanks, offers a dashboard for both users and admins, and promotes
+      sustainability through features like notifications, logging, and analytics.
+    </p>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <h2>Contact Us</h2>
+    <p><strong>Email:</strong> prasad.kulkarni@mitwpu.edu.in</p>
+    <p><strong>Phone:</strong> +91 7030293825</p>
+    <p><strong>Address:</strong> Environmental Studies Department, MIT WPU, Pune</p>
+  </section>
+</body>
+</html>

@@ -1,0 +1,165 @@
+{% extends 'adminpanel/layout.html' %}
+{% block content %}
+
+<!-- ✅ Inline CSS Styling -->
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding: 20px;
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        font-size: 1.25rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+
+    .form-control,
+    .form-select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 0.95rem;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-outline-secondary {
+        background-color: white;
+        color: #6c757d;
+        border: 1px solid #6c757d;
+    }
+
+    .alert {
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .alert-dismissible .btn-close {
+        float: right;
+        border: none;
+        background: transparent;
+        font-size: 1.2rem;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    .row {
+        display: flex;
+        gap: 20px;
+    }
+
+    .col-md-6 {
+        flex: 1;
+    }
+
+    .d-flex {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="card">
+        <div class="card-header">
+            Add Tank for <strong>{{ building.building_name }}</strong>
+        </div>
+        <div class="card-body">
+
+            <!-- Success and Error Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert 
+                        {% if message.tags == 'error' %}alert-danger
+                        {% elif message.tags == 'success' %}alert-success
+                        {% else %}alert-info{% endif %} 
+                        alert-dismissible">
+                        {{ message }}
+                        <button type="button" class="btn-close" onclick="this.parentElement.style.display='none';">&times;</button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <label for="tank_id" class="form-label">Tank ID</label>
+                <input type="text" name="tank_id" id="tank_id" class="form-control" placeholder="Enter Tank ID" required>
+
+                <label for="capacity" class="form-label">Capacity (liters)</label>
+                <input type="number" step="0.01" name="capacity" id="capacity" class="form-control" placeholder="Enter Capacity" required>
+
+                <label for="user_id" class="form-label">Assign User</label>
+                <select name="user_id" id="user_id" class="form-select" required>
+                    <option value="" disabled selected>-- Select User --</option>
+                    {% for user in users %}
+                        <option value="{{ user.user_id }}">{{ user.username }} ({{ user.email }})</option>
+                    {% endfor %}
+                </select>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="tank_created_date" class="form-label">Created Date</label>
+                        <input type="datetime-local" name="tank_created_date" id="tank_created_date" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="tank_last_modified_date" class="form-label">Last Modified</label>
+                        <input type="datetime-local" name="tank_last_modified_date" id="tank_last_modified_date" class="form-control">
+                    </div>
+                </div>
+
+                <div class="d-flex mt-3">
+                    <button type="submit" class="btn btn-success">Add Tank</button>
+                    <a href="{% url 'tank_list' building.building_id %}" class="btn btn-outline-secondary">Back to Tank List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
